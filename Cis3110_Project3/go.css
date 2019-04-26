@@ -1,0 +1,29 @@
+
+.imgDiv{
+    background-color: lightskyblue;
+    color:darkolivegreen;
+    border-radius: 3px; 
+    padding: 20px;
+    font-size: 100%; 
+    margin: 3px;
+    border: 3px;
+    text-align: center;
+}
+
+.pctImg{
+    width: 100%;
+    height :auto;
+}
+
+
+.container {
+    display: grid;
+    grid-gap: 3px;
+    grid-template-columns: 33% 33% 33%; 
+}
+
+body {
+    margin: 10px;
+    background:steelblue;
+}
+

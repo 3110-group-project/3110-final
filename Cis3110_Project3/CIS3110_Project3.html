@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="go.css">
+</head>
+
+<body>
+  <h3>Welcome to Brian Kan's Homemade Bakery</h3>
+  <script>
+    var images = ["1.JPG", "2.JPG", "3.JPG", "4.JPG", "5.JPG", "6.JPG"];
+        var titles = ["Berries Mousse Cake", "New York Cheesecake", "Rose Chocolate Tart", "Lemon Tart", "Matcha Cheese Tart", "Banana Chocolate Tart"];
+        var description = [
+            "Fancy blueberry flavor based mousse cake. Top with 72% dark chocolate ganash and fresh berries!",
+            "Classic New York cheesecake with chocolate spongecake base!",
+            "Butter crust filled with 72% dark chocolate ganash and light flavor of rose!",
+            "Crispy Earl grey flavored crust filled with mixed lemon and lime custard!",
+            "Butter crust filled with mascarpone cheese and Uji matcha powder!",
+            "Crispy crust filled with caramelized banana, 64% dark chocolate, and rum! "
+        ]
+        var url;
+        var cookie;
+        var clear;
+        var yeah = "https://s3.us-east-2.amazonaws.com/newbucket3110spring2019bk/Project+3/like.png";
+        var container = document.createElement("div");
+        container.setAttribute("class", "container");
+
+
+        for (var i = 0; i < images.length; i++) {
+            url = "https://s3.us-east-2.amazonaws.com/newbucket3110spring2019bk/Project+3/" + images[i];
+            urlOfDetailPage = "DetailPage.html?" + "img=" + url + "&title=" + titles[i] + "&description=" + description[i];
+
+            var imgDiv = document.createElement("div");
+            imgDiv.setAttribute("class", "imgDiv");
+
+            var imgInDiv = document.createElement("img");
+            imgInDiv.setAttribute("class", "pctImg");
+            imgInDiv.setAttribute("src", url);
+
+            var link = document.createElement("a");
+            link.setAttribute("href", urlOfDetailPage);
+
+            var header = document.createElement("h3");
+            header.setAttribute("class", "header");
+            header.innerHTML = titles[i];
+
+            var p = document.createElement("p");
+            p.setAttribute("class", "description");
+            p.innerHTML = description[i];
+
+            var like = document.createElement("button");
+            cookie = "checkCookie(" + i + ")";
+            like.setAttribute("id", "like"+i);
+            like.setAttribute("onclick", cookie);
+
+            like.innerHTML = "Like"
+
+            var unlike = document.createElement("button");
+            clear = "clearCookie(" + i + ")";
+            unlike.setAttribute("id", "unlike"+i);
+            unlike.setAttribute("onclick", clear);
+            unlike.innerHTML = "Unlike"
+
+            var likeIcon = document.createElement("img");
+            var check = checkCookieForLike(i);
+            if(check == "y"){
+                likeIcon.setAttribute("src", yeah);
+            }
+
+
+            link.appendChild(imgInDiv);
+            imgDiv.appendChild(header);
+            imgDiv.appendChild(likeIcon);
+            imgDiv.appendChild(link);
+            imgDiv.appendChild(p);
+            imgDiv.appendChild(like);
+            imgDiv.appendChild(unlike);
+
+
+            container.appendChild(imgDiv);
+
+        }
+        document.body.appendChild(container);
+
+       
+        function setCookie(cookieN, exp) {
+            console.log("set");
+            var d = new Date();
+            var v = "like";
+            d.setTime(d.getTime() + (exp * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            console.log(d);
+            console.log(expires);
+            var newC = cookieN + "=" + v + ";" + expires + ";path=/;";
+            console.log(newC);
+            document.cookie = newC;
+            window.location.reload();
+            return "";
+        }
+
+        function clearCookie(cookieN) {
+            var deleteC = "like" + cookieN;
+            setCookie(deleteC,-1);
+            window.location.reload();
+            return "";
+        }
+
+        function getCookie(cookie) {
+            var name = cookie + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function checkCookie(cookieN){
+            console.log("check");
+            var likeImg = "like" + cookieN;
+            var ck = getCookie(likeImg);
+            if(ck != ""){
+                alert("You have liked this img already");
+               
+            }else{
+                console.log(likeImg);
+                setCookie(likeImg,30);
+
+            }
+        }
+
+        function checkCookieForLike(cookieN){
+            var likeImg = "like" + cookieN;
+            var ck = getCookie(likeImg);
+            if(ck != ""){
+               return "y";
+               
+            }else{
+                return "n"
+            }
+        }
+    </script>
+</body>
+
+</html>
